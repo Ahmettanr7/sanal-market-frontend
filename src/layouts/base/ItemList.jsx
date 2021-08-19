@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Pagination } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 import ItemService from "../../services/ItemService";
 
 export default function ItemList() {
-  let cat1Id = 2;
+
+  let { id } = useParams();
+
 
   const [items, setItems] = useState([]);
   const [totalItem, setTotalItem] = useState([]);
@@ -12,34 +14,28 @@ export default function ItemList() {
   useEffect(() => {
     let itemService = new ItemService();
     itemService
-      .getByCategory(cat1Id, pageNo, pageSize)
+      .getByCategory(id, pageNo, pageSize)
       .then((result) => setItems(result.data.data));
   }, []);
 
   useEffect(() => {
     let itemService = new ItemService();
-    itemService.getAll().then((result) => setTotalItem(result.data.data));
+    itemService.getAllCategory1Id(id).then((result) => setTotalItem(result.data.data));
   }, []);
 
-  const [pageNo, setActivePage] = useState(1);
-  const handlePaginationChange = (e, { activePage }) =>
-    setActivePage(activePage);
 
-  const [pageSize, setPageSize] = useState(33);
+
+  const [pageNo, setActivePage] = useState(1);
+
+
+
+  const [pageSize, setPageSize] = useState(63);
   const totalPages = Math.ceil(totalItem.length / pageSize);
 
-  let FirstPage = (pageNo) => {
-    pageNo=1
-  }
-  let PrevPage = (pageNo) => {
-    pageNo=pageNo-1
-  }
-  let NextPage = (pageNo) => {
-    pageNo++
-  }
-  let LastPage = (pageNo) => {
-    pageNo=totalPages
-  }
+  const first = () => setActivePage(1);
+  const prev = () => setActivePage(pageNo - 1);
+  const next = () => setActivePage(pageNo + 1);
+  const last = () => setActivePage(totalPages);
 
   return (
     <div>
@@ -53,31 +49,20 @@ export default function ItemList() {
             padding: "10px",
           }}
         >
-          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Img variant="top" src={item.imageUrl} />
           <Card.Body>
             <Card.Title>{item.itemName}</Card.Title>
-            <Button variant="primary">Go somewhere</Button>
+            <Button variant="primary">Sepete ekle</Button>
           </Card.Body>
         </Card>
       ))}
-
       <Pagination style={{marginLeft:"35%"}} size="lg">
-        <Pagination.First onClick={FirstPage} />
-        <Pagination.Prev onClick={PrevPage}/>
-        <Pagination.Item>{pageNo}</Pagination.Item>
-        <Pagination.Next onClick={NextPage}/>
-        <Pagination.Last onClick={LastPage}/>
+        <Pagination.First onClick={first} disabled={pageNo === 1}/>
+        <Pagination.Prev onClick={prev} disabled={pageNo === 1}/>
+        <Pagination.Item>{pageNo} | {totalPages}</Pagination.Item>
+        <Pagination.Next onClick={next} disabled={pageNo === totalPages}/>
+        <Pagination.Last onClick={last} disabled={pageNo === totalPages}/>
       </Pagination>
-
-      {/* <Pagination
-        className="mt-4"
-        activePage={pageNo}
-        onPageChange={handlePaginationChange}
-        totalPages={totalPages}
-        ellipsisItem={null}
-        pointing
-        secondary
-      /> */}
     </div>
   );
 }
