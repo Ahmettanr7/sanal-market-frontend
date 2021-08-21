@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { CardBox, IconBox } from "../../Styles";
+import { CardBox, IconBox, SearchButton } from "../../Styles";
 import CategoryService from "../../services/CategoryService";
 import { Container } from "../../Styles";
 import { ReactComponent as AddIcon } from "../../assets/eye.svg";
+import { Button } from "react-bootstrap";
 
 export default function CategoryList() {
   const icon = [<AddIcon />];
@@ -41,32 +42,34 @@ export default function CategoryList() {
   const handleShow = () => setShow(true);
 
   return (
-          // <div style={{ border: "2px solid #f5f5f5", borderRadius: "10px" }}>
-          <div>
-            {categories.map((category) => (
-              <a
-                style={{ textDecorationLine: "none", textDecoration: "none" }}
-                href={`/items/${category.id}`}
+    <div style={{ border: "2px solid purple", borderRadius: "10px" }}>
+      <Button className="w-100 mb-2 mt-1" variant="outline-secondary">
+        Kategoriler
+      </Button>
+      {categories.map((category) => (
+        <a
+          style={{ textDecorationLine: "none", textDecoration: "none" }}
+          href={`/items/${category.id}`}
+        >
+          <Container initial={{ x: -1000 }} animate={{ x: 0 }}>
+            <CardBox
+              key={category.id}
+              style={{ backgroundImage: `url("${category.imageUrl}")` }}
+              variants={CardVariants}
+              initial="beforeHover"
+              whileHover="onHover"
+            >
+              <h5
+                className="text-center bg-dark"
+                style={{ color: "white", bottom: "0" }}
               >
-                <Container initial={{ x: -1000 }} animate={{ x: 0 }}>
-                  <CardBox
-                    key={category.id}
-                    style={{ backgroundImage: `url("${category.imageUrl}")` }}
-                    variants={CardVariants}
-                    initial="beforeHover"
-                    whileHover="onHover"
-                  >
-                    <h5
-                      className="text-center bg-dark"
-                      style={{ color: "white", bottom: "0" }}
-                    >
-                      {category.categoryName}
-                    </h5>
-                    <IconBox variants={IconVariants}>{icon}</IconBox>
-                  </CardBox>
-                </Container>
-              </a>
-            ))}
-          </div>
+                {category.categoryName}
+              </h5>
+              <IconBox variants={IconVariants}>{icon}</IconBox>
+            </CardBox>
+          </Container>
+        </a>
+      ))}
+    </div>
   );
 }

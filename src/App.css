@@ -3,14 +3,10 @@
 }
 
 body {
-  background: #f1f3f4;
+  background: #f2f8fb !important;
 }
 
 h1,
 h2 {
   text-align: center;
 }
-
-/* svg {
-  font-size: 40px !important;
-} */

@@ -4,4 +4,8 @@ export default class CategoryService{
     getAll(){
         return axios.get("http://localhost:8080/api/categories/getall")
     }
+
+    getById(id){
+        return axios.get("http://localhost:8080/api/categories/getbyid?id="+id)
+    }
 }
