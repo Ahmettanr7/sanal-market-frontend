@@ -12,4 +12,8 @@ export default class CartService{
         return axios.post("http://localhost:8080/api/carts/delete?id="+id)
     }
 
+    getActiveCartItems(userId){
+        return axios.get("http://localhost:8080/api/carts/getactivecartitems?userId="+userId)
+    }
+
 }

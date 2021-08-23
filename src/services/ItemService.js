@@ -20,4 +20,12 @@ export default class ItemService{
     getAllCategory1Id(cat1Id){
         return axios.get("http://localhost:8080/api/items/getallcategory1Id?cat1Id="+cat1Id)
     }
+
+    getByItemName(itemName){
+        return axios.get("http://localhost:8080/api/items/getbyitemname?itemName="+itemName)
+    }
+
+    getByItemNamePageable(itemName,pageNo,pageSize){
+        return axios.get("http://localhost:8080/api/items/getbyitemnamepageable?itemName="+itemName+"&pageNo="+pageNo+"&pageSize="+pageSize)
+}
 }
