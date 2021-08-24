@@ -10,9 +10,12 @@ import {
 } from "../../Styles";
 import ItemService from "../../services/ItemService";
 import CategoryService from "../../services/CategoryService";
-import {MdAddShoppingCart} from "react-icons/md";
+import { MdAddShoppingCart } from "react-icons/md";
+import CartService from "../../services/CartService";
+import { useToasts } from "react-toast-notifications";
 
 export default function ItemList() {
+  const { addToast } = useToasts();
   let { id } = useParams();
 
   const [items, setItems] = useState([]);
@@ -58,6 +61,22 @@ export default function ItemList() {
   const remove = () => setCount(count - 1);
   const addKg = () => setCount(count + 0.5);
   const removeKg = () => setCount(count - 0.5);
+
+  let addToCart = (itemId) => {
+    let cartService = new CartService();
+    const values = {
+      userId: 56,
+      itemId: itemId,
+      count: count,
+    };
+    cartService.add(values).then((result) => {
+      addToast(result.data.message, {
+        appearance: result.data.success ? "success" : "error",
+        autoDismiss: true,
+      });
+    });
+  };
+
   return (
     <div>
       <Breadcrumb>
@@ -152,9 +171,14 @@ export default function ItemList() {
                 </FlexContainer>
               </AddRemove>
 
-              <Button className="mt-2" variant="success" style={{backgroundColor:"purple"}}>
+              <Button
+                className="mt-2"
+                variant="success"
+                onClick={() => addToCart(item.id)}
+                style={{ backgroundColor: "purple" }}
+              >
                 Sepete ekle
-                <MdAddShoppingCart className="ms-2" size="20px"/>
+                <MdAddShoppingCart className="ms-2" size="20px" />
               </Button>
             </Card.Body>
           </Card>

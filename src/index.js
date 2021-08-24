@@ -5,11 +5,12 @@ import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastProvider } from 'react-toast-notifications';
 
 ReactDOM.render(
   <BrowserRouter>
   <React.StrictMode>
-  <App />
+  <ToastProvider><App/></ToastProvider>
 </React.StrictMode>
 </BrowserRouter>,
 document.getElementById("root")

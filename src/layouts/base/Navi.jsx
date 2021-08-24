@@ -4,17 +4,22 @@ import {
   Nav,
   Button,
   Form,
-  Dropdown,
   Container,
   FormControl,
+  ListGroup,
+  Image,
 } from "react-bootstrap";
 import { FaUserCircle, FaUserPlus } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
+import { AiFillLeftCircle } from "react-icons/ai";
 import CartService from "../../services/CartService";
 import { SearchButton, Buttonn } from "../../Styles";
 import { Formik, useFormik } from "formik";
+import { Offcanvas } from "react-bootstrap";
+import { useToasts } from "react-toast-notifications";
 
 export default function Navi() {
+  const { addToast } = useToasts();
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
@@ -33,11 +38,19 @@ export default function Navi() {
     },
   });
 
-  let total = 0;
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  function totall(count, price) {
-    total = count * price;
-  }
+  let remove = (itemId) => {
+    let cartService = new CartService();
+    cartService.delete(56,itemId).then((result) => {
+      addToast(result.data.message, {
+        appearance: result.data.success ? "success" : "error",
+        autoDismiss: true,
+      });
+    });
+  };
 
   return (
     <div
@@ -72,48 +85,85 @@ export default function Navi() {
 
           <Navbar.Collapse id="navbarScroll" className="justify-content-end">
             <Nav.Item>
-              <Button variant="light">
+              <Button className="m-3" variant="light">
                 <FaUserCircle size="30px" color="purple" />
                 <span className="ms-2">Giriş Yap</span>
               </Button>
             </Nav.Item>
             <Nav.Item>
-              <Button variant="light">
+              <Button className="m-3" variant="light">
                 <FaUserPlus size="30px" color="purple" />
                 <span className="ms-2">Kayıt Ol</span>
               </Button>
             </Nav.Item>
-            <Dropdown>
-              <Dropdown.Toggle variant="light" id="dropdown-basic">
+            <Nav.Item>
+              <Button className="m-3" variant="light" onClick={handleShow}>
                 <TiShoppingCart size="30px" color="#666666" />
-                <span className="mx-2">Siparişlerim {cartItems.length}</span>
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {cartItems.map((item) => (
-                  <Dropdown.Item key={item.id} href="">
-                    {item.itemName}
-                    <div className="divider" />
-                    {item.unitPrice} TL x {item.totalCount}
-                    {item.category1 === 2 ||
-                    item.category1 === 6 ||
-                    item.category1 === 12 ||
-                    item.category1 === 18 ? (
-                      <Buttonn>Kg.</Buttonn>
-                    ) : (
-                      <Buttonn>Ad.</Buttonn>
-                    )}
-                    =
-                    <span className="ms-1">
-                       {item.unitPrice * item.totalCount} TL
+                <span className="mx-2">
+                  Sipariş Listesi
+                  <span className="m-2" style={{color:"purple"}}><b>{cartItems.length}</b></span>
+                  <AiFillLeftCircle className="ms-2" color="#666666" />
+                </span>
+              </Button>
+              <Offcanvas placement="end" show={show} onHide={handleClose}>
+                <Offcanvas.Header closeButton>
+                  <Offcanvas.Title>
+                    <TiShoppingCart
+                      className="m-2"
+                      size="40px"
+                      color="#666666"
+                    />
+                    Sipariş Listem
+                  </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                  <ListGroup>
+                    {cartItems.map((item) => (
+                      <ListGroup.Item action key={item.itemId}>
+                        <div className="d-flex justify-content-end">
+                          <Button
+                          onClick={() => remove(item.itemId)}
+                          >x</Button>
+                        </div>
+                        <div className="d-flex justify-content-center">
+                          <Image
+                            style={{ height: "50px" }}
+                            variant="top"
+                            src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
+                          />
+                        </div>
+                        <div className="d-flex justify-content-center">
+                          {item.itemName}
+                        </div>
+                        <div className="d-flex justify-content-center">
+                          {item.unitPrice} ₺ x {item.totalCount}
+                          {item.category1 === 2 ||
+                          item.category1 === 6 ||
+                          item.category1 === 12 ||
+                          item.category1 === 18 ? (
+                            <Buttonn>Kg.</Buttonn>
+                          ) : (
+                            <Buttonn>Ad.</Buttonn>
+                          )}
+                          =
+                          <span className="ms-1">
+                            <b> {item.unitPrice * item.totalCount} ₺ </b>
+                          </span>
+                        </div>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                  <div className="d-flex justify-content-center">
+                    <span className="m-5">
+                      Toplam : <span style={{ color: "blue" }}> 65 ₺ </span>
                     </span>
-                   <Button variant="secondary" className="sm lg">-1</Button>
-                   <Button  variant="danger">X</Button>
-                  </Dropdown.Item>
-                ))}
-                <Dropdown.Divider/>
-                <Dropdown.Item>Sepet Toplamı = {total}</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <Button>Alışverişi Tamamla</Button>
+                  </div>
+                </Offcanvas.Body>
+              </Offcanvas>
+            </Nav.Item>
           </Navbar.Collapse>
         </Navbar>
       </Container>
