@@ -22,7 +22,7 @@ export default function ItemSearchList() {
     itemService
       .getByItemNamePageable(itemName,pageNo,pageSize)
       .then((result) => setItems(result.data.data));
-  }, [items]);
+  }, []);
 
   useEffect(() => {
     let itemService = new ItemService();

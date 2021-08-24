@@ -43,7 +43,7 @@ export default function CategoryList() {
 
   return (
     <div style={{ border: "2px solid purple", borderRadius: "10px" }}>
-      <Button className="w-100 mb-2 mt-1" variant="outline-secondary">
+      <Button className="w-100 mb-2 mt-1" variant="outline">
         Kategoriler
       </Button>
       {categories.map((category) => (

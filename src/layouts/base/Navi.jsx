@@ -9,7 +9,6 @@ import {
   ListGroup,
   Image,
 } from "react-bootstrap";
-import { FaUserCircle, FaUserPlus } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { AiFillLeftCircle } from "react-icons/ai";
 import CartService from "../../services/CartService";
@@ -17,6 +16,10 @@ import { SearchButton, Buttonn } from "../../Styles";
 import { Formik, useFormik } from "formik";
 import { Offcanvas } from "react-bootstrap";
 import { useToasts } from "react-toast-notifications";
+import { useHistory } from "react-router-dom";
+import Signedin from "./SignedIn";
+import SignedIn from "./SignedIn";
+import SignOut from "./SignOut";
 
 export default function Navi() {
   const { addToast } = useToasts();
@@ -52,6 +55,19 @@ export default function Navi() {
     });
   };
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const history = useHistory();
+
+  function handlerSignOut() {
+    setIsAuthenticated(false);
+    history.push("/");
+  }
+
+  function handlerSignIn() {
+    setIsAuthenticated(true);
+  }
+
   return (
     <div
       style={{ boxShadow: "5px", backgroundColor: "rgba(192, 192, 192, 0.1)" }}
@@ -84,18 +100,13 @@ export default function Navi() {
           </Formik>
 
           <Navbar.Collapse id="navbarScroll" className="justify-content-end">
-            <Nav.Item>
-              <Button className="m-3" variant="light">
-                <FaUserCircle size="30px" color="purple" />
-                <span className="ms-2">Giriş Yap</span>
-              </Button>
-            </Nav.Item>
-            <Nav.Item>
-              <Button className="m-3" variant="light">
-                <FaUserPlus size="30px" color="purple" />
-                <span className="ms-2">Kayıt Ol</span>
-              </Button>
-            </Nav.Item>
+            
+          {isAuthenticated ? (
+                <SignedIn signOut={handlerSignOut} />
+              ) : (
+                <SignOut signIn={handlerSignIn} />
+              )}
+
             <Nav.Item>
               <Button className="m-3" variant="light" onClick={handleShow}>
                 <TiShoppingCart size="30px" color="#666666" />
@@ -121,9 +132,9 @@ export default function Navi() {
                     {cartItems.map((item) => (
                       <ListGroup.Item action key={item.itemId}>
                         <div className="d-flex justify-content-end">
-                          <Button
+                          <Buttonn
                           onClick={() => remove(item.itemId)}
-                          >x</Button>
+                          >x</Buttonn>
                         </div>
                         <div className="d-flex justify-content-center">
                           <Image

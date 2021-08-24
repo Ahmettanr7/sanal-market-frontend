@@ -6,11 +6,15 @@ import { Route } from "react-router-dom";
 import CategoryList from "./CategoryList";
 import CarouselLayout from "./CarouselLayout";
 import ItemSearchList from "./ItemSearchList";
+import LoginRegister from "./login/LoginRegister";
+import Background from "./Background";
+import Footer from "./Footer";
 
 export default function Dashboard() {
   return (
     <div>
       <Navi />
+      <Route exact path="/login" component={LoginRegister} />
       <Row>
         <Col sm={1}></Col>
         <Col sm={2}>
@@ -39,6 +43,8 @@ export default function Dashboard() {
           <Route exact path="/search/:itemName" />
         </Col>
       </Row>
+      <Background/>
+      <Footer/>
     </div>
   );
 }
