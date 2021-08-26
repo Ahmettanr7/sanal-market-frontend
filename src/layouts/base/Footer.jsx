@@ -7,7 +7,7 @@ import { ImHeadphones } from "react-icons/im";
 
 export default function Footer() {
   return (
-    <div style={{ marginTop: "250px", backgroundColor: "#1d398d" }}>
+    <div style={{ marginTop: "250px", backgroundColor: "#8000bf" }}>
       <Row>
         <Col sm={1}></Col>
         <Col sm={5}>

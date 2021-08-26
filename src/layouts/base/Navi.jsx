@@ -12,25 +12,37 @@ import {
 import { TiShoppingCart } from "react-icons/ti";
 import { AiFillLeftCircle } from "react-icons/ai";
 import CartService from "../../services/CartService";
-import { SearchButton, Buttonn } from "../../Styles";
+import {
+  SearchButton,
+  Buttonn,
+  AddRemove,
+  FlexContainer,
+  Flex,
+} from "../../Styles";
 import { Formik, useFormik } from "formik";
 import { Offcanvas } from "react-bootstrap";
-import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
-import Signedin from "./SignedIn";
 import SignedIn from "./SignedIn";
 import SignOut from "./SignOut";
+import { useToasts } from "react-toast-notifications";
 
 export default function Navi() {
   const { addToast } = useToasts();
   const [cartItems, setCartItems] = useState([]);
+  const [totalCartPrice, setTotalCartPrice] = useState([]);
 
   useEffect(() => {
     let cartService = new CartService();
     cartService
-      .getActiveCartItems(56)
+      .getByUserIdAndCartStatusIsTrue(56)
       .then((result) => setCartItems(result.data.data));
-  }, []);
+  }, [cartItems]);
+  useEffect(() => {
+    let cartService = new CartService();
+    cartService
+      .getTotalCartPrice(56)
+      .then((result) => setTotalCartPrice(result.data.data));
+  }, [totalCartPrice]);
 
   const formik = useFormik({
     initialValues: {
@@ -45,9 +57,49 @@ export default function Navi() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  let remove = (itemId) => {
+  let delete_ = (id) => {
     let cartService = new CartService();
-    cartService.delete(56,itemId).then((result) => {
+    cartService.delete(id).then((result) => {
+      addToast(result.data.message, {
+        appearance: result.data.success ? "success" : "error",
+        autoDismiss: true,
+      });
+    });
+  };
+
+  let decreaseAd = (itemId) => {
+    let cartService = new CartService();
+    cartService.decreaseAd(56,itemId).then((result) => {
+      addToast(result.data.message, {
+        appearance: result.data.success ? "success" : "error",
+        autoDismiss: true,
+      });
+    });
+  };
+
+  let increaseAd = (itemId) => {
+    let cartService = new CartService();
+    cartService.increaseAd(56,itemId).then((result) => {
+      addToast(result.data.message, {
+        appearance: result.data.success ? "success" : "error",
+        autoDismiss: true,
+      });
+    });
+  };
+
+  let decreaseKg = (itemId) => {
+    let cartService = new CartService();
+    cartService.decreaseKg(56,itemId).then((result) => {
+      addToast(result.data.message, {
+        appearance: result.data.success ? "success" : "error",
+        autoDismiss: true,
+      });
+    });
+  };
+
+  let increaseKg = (itemId) => {
+    let cartService = new CartService();
+    cartService.increaseKg(56,itemId).then((result) => {
       addToast(result.data.message, {
         appearance: result.data.success ? "success" : "error",
         autoDismiss: true,
@@ -66,6 +118,11 @@ export default function Navi() {
 
   function handlerSignIn() {
     setIsAuthenticated(true);
+  }
+
+  function roll(value, step) {
+    step = Math.pow(10, step);
+    return Math.round(value * step) / step;
   }
 
   return (
@@ -100,19 +157,20 @@ export default function Navi() {
           </Formik>
 
           <Navbar.Collapse id="navbarScroll" className="justify-content-end">
-            
-          {isAuthenticated ? (
-                <SignedIn signOut={handlerSignOut} />
-              ) : (
-                <SignOut signIn={handlerSignIn} />
-              )}
+            {isAuthenticated ? (
+              <SignedIn signOut={handlerSignOut} />
+            ) : (
+              <SignOut signIn={handlerSignIn} />
+            )}
 
             <Nav.Item>
               <Button className="m-3" variant="light" onClick={handleShow}>
                 <TiShoppingCart size="30px" color="#666666" />
                 <span className="mx-2">
                   Sipariş Listesi
-                  <span className="m-2" style={{color:"purple"}}><b>{cartItems.length}</b></span>
+                  <span className="m-2" style={{ color: "purple" }}>
+                    <b>{cartItems.length}</b>
+                  </span>
                   <AiFillLeftCircle className="ms-2" color="#666666" />
                 </span>
               </Button>
@@ -129,12 +187,10 @@ export default function Navi() {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <ListGroup>
-                    {cartItems.map((item) => (
-                      <ListGroup.Item action key={item.itemId}>
+                    {cartItems.map((cart) => (
+                      <ListGroup.Item action key={cart.id}>
                         <div className="d-flex justify-content-end">
-                          <Buttonn
-                          onClick={() => remove(item.itemId)}
-                          >x</Buttonn>
+                          <Buttonn onClick={() => delete_(cart.id)}>x</Buttonn>
                         </div>
                         <div className="d-flex justify-content-center">
                           <Image
@@ -144,31 +200,76 @@ export default function Navi() {
                           />
                         </div>
                         <div className="d-flex justify-content-center">
-                          {item.itemName}
+                          {cart.item.itemName}
                         </div>
                         <div className="d-flex justify-content-center">
-                          {item.unitPrice} ₺ x {item.totalCount}
-                          {item.category1 === 2 ||
-                          item.category1 === 6 ||
-                          item.category1 === 12 ||
-                          item.category1 === 18 ? (
-                            <Buttonn>Kg.</Buttonn>
-                          ) : (
-                            <Buttonn>Ad.</Buttonn>
-                          )}
+                          <span style={{fontSize:"small", width:"100%"}}>
+                            Birim Fiyatı : <span><b>{roll(cart.item.unitPrice,2)} ₺</b></span>
+                          
+                          </span>
+                          <AddRemove>
+                            <FlexContainer>
+                              <Flex className="border">
+                                {cart.item.category1 === 2 ||
+                                cart.item.category1 === 6 ||
+                                cart.item.category1 === 12 ||
+                                cart.item.category1 === 18 ? (
+                                  <Buttonn
+                                  onClick={() => decreaseKg(cart.item.id)}
+                                    disabled={(cart.count) === 1}
+                                  >
+                                    -
+                                  </Buttonn>
+                                ) : (
+                                  <Buttonn
+                                  onClick={() => decreaseAd(cart.item.id)}
+                                    disabled={(cart.count) === 1}
+                                  >
+                                    -
+                                  </Buttonn>
+                                )}
+                                {cart.item.category1 === 2 ||
+                                cart.item.category1 === 6 ||
+                                cart.item.category1 === 12 ||
+                                cart.item.category1 === 18 ? (
+                                  <Buttonn>{(cart.count)} Kilo</Buttonn>
+                                ) : (
+                                  <Buttonn>{(cart.count)} Adet</Buttonn>
+                                )}
+                                {cart.item.category1 === 2 ||
+                                cart.item.category1 === 6 ||
+                                cart.item.category1 === 12 ||
+                                cart.item.category1 === 18 ? (
+                                  <Buttonn
+                                  onClick={() => increaseKg(cart.item.id)}
+                                  >+</Buttonn>
+                                ) : (
+                                  <Buttonn 
+                                  onClick={() => increaseAd(cart.item.id)}
+                                  >+</Buttonn>
+                                )}
+                              </Flex>
+                            </FlexContainer>
+                          </AddRemove>
                           =
                           <span className="ms-1">
-                            <b> {item.unitPrice * item.totalCount} ₺ </b>
+                            <b>{roll(cart.lineTotal, 2)} ₺ </b>
                           </span>
                         </div>
                       </ListGroup.Item>
                     ))}
                   </ListGroup>
-                  <div className="d-flex justify-content-center">
-                    <span className="m-5">
-                      Toplam : <span style={{ color: "blue" }}> 65 ₺ </span>
-                    </span>
-                  </div>
+                  {totalCartPrice.map((dto) => (
+                    <div className="d-flex justify-content-center">
+                      <span className="m-5">
+                        Toplam :{" "}
+                        <span style={{ color: "blue" }}>
+                          {" "}
+                          {roll(dto.totalCartPrice, 2)} ₺
+                        </span>
+                      </span>
+                    </div>
+                  ))}
                   <div className="d-flex justify-content-center">
                     <Button>Alışverişi Tamamla</Button>
                   </div>

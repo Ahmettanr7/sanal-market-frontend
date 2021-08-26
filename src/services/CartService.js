@@ -8,12 +8,32 @@ export default class CartService{
     getAllByUserId(userId){
         return axios.get("http://localhost:8080/api/carts/getbyuserid?userId="+userId)
     }
-    delete(userId,itemId){
-        return axios.post("http://localhost:8080/api/carts/delete?itemId="+itemId+"?userId="+userId)
+    delete(id){
+        return axios.post("http://localhost:8080/api/carts/delete?id="+id)
     }
 
-    getActiveCartItems(userId){
-        return axios.get("http://localhost:8080/api/carts/getactivecartitems?userId="+userId)
+    getTotalCartPrice(userId){
+        return axios.get("http://localhost:8080/api/carts/getTotalCartPrice?userId="+userId)
+    }
+
+    getByUserIdAndCartStatusIsTrue(userId){
+        return axios.get("http://localhost:8080/api/carts/getbyuseridandcartstatusistrue?userId="+userId)
+    }
+
+    decreaseAd(userId, itemId){
+        return axios.post("http://localhost:8080/api/carts/decreaseAd?itemId="+itemId+"&userId="+userId)
+    }
+
+    increaseAd(userId, itemId){
+        return axios.post("http://localhost:8080/api/carts/increaseAd?itemId="+itemId+"&userId="+userId)
+    }
+
+    decreaseKg(userId, itemId){
+        return axios.post("http://localhost:8080/api/carts/decreaseKg?itemId="+itemId+"&userId="+userId)
+    }
+
+    increaseKg(userId, itemId){
+        return axios.post("http://localhost:8080/api/carts/increaseKg?itemId="+itemId+"&userId="+userId)
     }
 
 }
