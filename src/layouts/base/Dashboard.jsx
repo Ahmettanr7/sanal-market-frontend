@@ -9,12 +9,14 @@ import ItemSearchList from "./ItemSearchList";
 import LoginRegister from "./login/LoginRegister";
 import Background from "./Background";
 import Footer from "./Footer";
+import CartDetail from "./CartDetail";
 
 export default function Dashboard() {
   return (
     <div>
       <Navi />
       <Route exact path="/login" component={LoginRegister} />
+      <Route exact path="/cart" component={CartDetail} />
       <Row>
         <Col sm={1}></Col>
         <Col sm={2}>

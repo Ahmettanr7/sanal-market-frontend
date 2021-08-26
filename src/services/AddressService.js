@@ -22,10 +22,11 @@ export default class AddressService{
     }
 
     getTownsByCityId(cityId){
-        return axios.get("http://localhost:8080/api/towns/getbycity?getbycityId="+cityId)
+        return axios.get("http://localhost:8080/api/towns/getbycity?cityId="+cityId)
     }
 
     getDistrictsByTownId(townId){
-        return axios.get("http://localhost:8080/api/districts/getbytown?getbytownId="+townId)
+        return axios.get("http://localhost:8080/api/districts/getbytown?townId="+townId)
+        
     }
 }

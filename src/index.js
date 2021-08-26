@@ -10,7 +10,7 @@ import { ToastProvider } from 'react-toast-notifications';
 ReactDOM.render(
   <BrowserRouter>
   <React.StrictMode>
-  <ToastProvider><App/></ToastProvider>
+  <ToastProvider placement="top-left"><App/></ToastProvider>
 </React.StrictMode>
 </BrowserRouter>,
 document.getElementById("root")

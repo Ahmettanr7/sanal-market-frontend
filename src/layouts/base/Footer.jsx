@@ -39,7 +39,7 @@ export default function Footer() {
           <Col className="col" sm={3}>
             <div className="footer-nav">
               <div className="item">
-                <a className="footer-title" href="javascript:void(0);" target="_self">
+                <a className="footer-title" href="#" target="_self">
                   ÖDEME
                 </a>
                 <ul>
@@ -73,7 +73,7 @@ export default function Footer() {
           <Col className="col" sm={3}>
             <div className="footer-nav">
               <div className="item">
-                <a className="footer-title" href="javascript:void(0);" target="_self">
+                <a className="footer-title" href="#" target="_self">
                   KURUMSAL
                 </a>
                 <ul>
@@ -116,7 +116,7 @@ export default function Footer() {
                 <a className="footer-title" href="#" target="_self">
                   İLETİŞİM
                 </a>
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                <i className="fa fa-angle-down" aria-hidden="true"></i>
                 <ul>
                   <li>
                     <a href="#" target="_self">
@@ -129,7 +129,7 @@ export default function Footer() {
           </Col>
           <Col className="col" sm={4}>
               <div className="ebulletin">
-              <div class="title">E-bültene Kayıt Ol!</div>
+              <div className="title">E-bültene Kayıt Ol!</div>
               <p>
               Hemen Kayıt Ol! Kampanya ve Yeni Ürünlerden ilk senin haberin
               olsun!
@@ -137,18 +137,18 @@ export default function Footer() {
             <Form id="bultenform" name="bultenform" action="" method="post">
               <FormControl
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="BultenMail"
                 placeholder="E-mail adresi yazınız"
                 name="BultenMail"
-                maxlength="150"
+                maxLength="150"
                 data-rule-required="true"
                 data-rule-email="true"
                 data-hata-mesaji="Lütfen geçerli bir e-mail adresi belirtiniz"
               ></FormControl>
               <Button
                 type="submit"
-                class="btn"
+                className="btn"
                 name="BultenEkle"
                 id="BultenEkle"
               >

@@ -21,7 +21,7 @@ import {
 } from "../../Styles";
 import { Formik, useFormik } from "formik";
 import { Offcanvas } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import SignedIn from "./SignedIn";
 import SignOut from "./SignOut";
 import { useToasts } from "react-toast-notifications";
@@ -36,13 +36,13 @@ export default function Navi() {
     cartService
       .getByUserIdAndCartStatusIsTrue(56)
       .then((result) => setCartItems(result.data.data));
-  }, [cartItems]);
+  }, []);
   useEffect(() => {
     let cartService = new CartService();
     cartService
       .getTotalCartPrice(56)
       .then((result) => setTotalCartPrice(result.data.data));
-  }, [totalCartPrice]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -147,7 +147,7 @@ export default function Navi() {
                 name="itemName"
                 placeholder="Ne Aramıştınız ? "
                 aria-label="Search"
-                normalize={(value) => (value || "").toLocaleLowerCase()}
+                // normalize={(value) => (value || "").toLocaleLowerCase()}
                 value={formik.values.itemName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -271,7 +271,10 @@ export default function Navi() {
                     </div>
                   ))}
                   <div className="d-flex justify-content-center">
-                    <Button>Alışverişi Tamamla</Button>
+                    <Button
+                    as={NavLink} to="/cart"
+                    onClick={handleClose}
+                    >Alışverişi Tamamla</Button>
                   </div>
                 </Offcanvas.Body>
               </Offcanvas>
