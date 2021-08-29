@@ -98,10 +98,10 @@ export default function ItemSearchList() {
               <Card.Title
                 style={{ height: "50px", overflow: "hidden", color: "blue" }}
               >
-                {item.unitPrice} ₺ <br />
+                {roll(item.unitPrice,2)} ₺ <br />
                 <span
                   className="text-muted"
-                  style={{ textDecoration: "line-through" }}
+                  style={{ textDecoration: "line-through", fontSize:"small" }}
                 >
                   {roll(item.unitPrice + item.unitPrice * 0.15, 2)} ₺
                 </span>

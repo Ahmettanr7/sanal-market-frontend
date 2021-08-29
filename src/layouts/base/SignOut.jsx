@@ -8,7 +8,7 @@ export default function SignOut({signIn}) {
         <div>
             <Nav.Item>
               <Button
-            as={NavLink} to='/login'
+            // as={NavLink} to='/login'
             onClick={signIn}
             className="m-3"
             variant="light">

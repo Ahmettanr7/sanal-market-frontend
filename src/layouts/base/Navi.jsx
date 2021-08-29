@@ -69,7 +69,7 @@ export default function Navi() {
 
   let decreaseAd = (itemId) => {
     let cartService = new CartService();
-    cartService.decreaseAd(56,itemId).then((result) => {
+    cartService.decreaseAd(56, itemId).then((result) => {
       addToast(result.data.message, {
         appearance: result.data.success ? "success" : "error",
         autoDismiss: true,
@@ -79,7 +79,7 @@ export default function Navi() {
 
   let increaseAd = (itemId) => {
     let cartService = new CartService();
-    cartService.increaseAd(56,itemId).then((result) => {
+    cartService.increaseAd(56, itemId).then((result) => {
       addToast(result.data.message, {
         appearance: result.data.success ? "success" : "error",
         autoDismiss: true,
@@ -89,7 +89,7 @@ export default function Navi() {
 
   let decreaseKg = (itemId) => {
     let cartService = new CartService();
-    cartService.decreaseKg(56,itemId).then((result) => {
+    cartService.decreaseKg(56, itemId).then((result) => {
       addToast(result.data.message, {
         appearance: result.data.success ? "success" : "error",
         autoDismiss: true,
@@ -99,7 +99,7 @@ export default function Navi() {
 
   let increaseKg = (itemId) => {
     let cartService = new CartService();
-    cartService.increaseKg(56,itemId).then((result) => {
+    cartService.increaseKg(56, itemId).then((result) => {
       addToast(result.data.message, {
         appearance: result.data.success ? "success" : "error",
         autoDismiss: true,
@@ -193,19 +193,27 @@ export default function Navi() {
                           <Buttonn onClick={() => delete_(cart.id)}>x</Buttonn>
                         </div>
                         <div className="d-flex justify-content-center">
-                          <Image
-                            style={{ height: "50px" }}
-                            variant="top"
-                            src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
-                          />
+                          {cart.item.imageUrl ? (
+                            <Image
+                              style={{ height: "50px" }}
+                              src={cart.item.imageUrl}
+                            />
+                          ) : (
+                            <Image
+                              style={{ height: "50px" }}
+                              src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
+                            />
+                          )}
                         </div>
                         <div className="d-flex justify-content-center">
                           {cart.item.itemName}
                         </div>
                         <div className="d-flex justify-content-center">
-                          <span style={{fontSize:"small", width:"100%"}}>
-                            Birim Fiyatı : <span><b>{roll(cart.item.unitPrice,2)} ₺</b></span>
-                          
+                          <span style={{ fontSize: "small", width: "100%" }}>
+                            Birim Fiyatı :{" "}
+                            <span>
+                              <b>{roll(cart.item.unitPrice, 2)} ₺</b>
+                            </span>
                           </span>
                           <AddRemove>
                             <FlexContainer>
@@ -215,15 +223,15 @@ export default function Navi() {
                                 cart.item.category1 === 12 ||
                                 cart.item.category1 === 18 ? (
                                   <Buttonn
-                                  onClick={() => decreaseKg(cart.item.id)}
-                                    disabled={(cart.count) === 1}
+                                    onClick={() => decreaseKg(cart.item.id)}
+                                    disabled={cart.count === 1}
                                   >
                                     -
                                   </Buttonn>
                                 ) : (
                                   <Buttonn
-                                  onClick={() => decreaseAd(cart.item.id)}
-                                    disabled={(cart.count) === 1}
+                                    onClick={() => decreaseAd(cart.item.id)}
+                                    disabled={cart.count === 1}
                                   >
                                     -
                                   </Buttonn>
@@ -232,21 +240,25 @@ export default function Navi() {
                                 cart.item.category1 === 6 ||
                                 cart.item.category1 === 12 ||
                                 cart.item.category1 === 18 ? (
-                                  <Buttonn>{(cart.count)} Kilo</Buttonn>
+                                  <Buttonn>{cart.count} Kilo</Buttonn>
                                 ) : (
-                                  <Buttonn>{(cart.count)} Adet</Buttonn>
+                                  <Buttonn>{cart.count} Adet</Buttonn>
                                 )}
                                 {cart.item.category1 === 2 ||
                                 cart.item.category1 === 6 ||
                                 cart.item.category1 === 12 ||
                                 cart.item.category1 === 18 ? (
                                   <Buttonn
-                                  onClick={() => increaseKg(cart.item.id)}
-                                  >+</Buttonn>
+                                    onClick={() => increaseKg(cart.item.id)}
+                                  >
+                                    +
+                                  </Buttonn>
                                 ) : (
-                                  <Buttonn 
-                                  onClick={() => increaseAd(cart.item.id)}
-                                  >+</Buttonn>
+                                  <Buttonn
+                                    onClick={() => increaseAd(cart.item.id)}
+                                  >
+                                    +
+                                  </Buttonn>
                                 )}
                               </Flex>
                             </FlexContainer>
@@ -259,22 +271,26 @@ export default function Navi() {
                       </ListGroup.Item>
                     ))}
                   </ListGroup>
-                  {totalCartPrice.map((dto) => (
-                    <div className="d-flex justify-content-center">
-                      <span className="m-5">
-                        Toplam :{" "}
-                        <span style={{ color: "blue" }}>
-                          {" "}
-                          {roll(dto.totalCartPrice, 2)} ₺
-                        </span>
-                      </span>
-                    </div>
-                  ))}
                   <div className="d-flex justify-content-center">
-                    <Button
-                    as={NavLink} to="/cart"
-                    onClick={handleClose}
-                    >Alışverişi Tamamla</Button>
+                    {totalCartPrice ? (<span className="m-5">
+                      Toplam :{" "}
+                      <span style={{ color: "blue" }}>
+                        {" "}
+                        {roll(totalCartPrice?.totalCartPrice, 2)} ₺
+                      </span>
+                    </span>):(<span className="m-5">
+                      Toplam :{" "}
+                      <span style={{ color: "blue" }}>
+                        {" "}
+                        0 ₺
+                      </span>
+                    </span>)}
+                    
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <Button as={NavLink} to="/cart" onClick={handleClose}>
+                      Alışverişi Tamamla
+                    </Button>
                   </div>
                 </Offcanvas.Body>
               </Offcanvas>

@@ -15,13 +15,13 @@ export default function CartDetail() {
     cartService
       .getByUserIdAndCartStatusIsTrue(56)
       .then((result) => setCartItems(result.data.data));
-  }, []);
-  useEffect(() => {
-    let cartService = new CartService();
-    cartService
+
+      cartService
       .getTotalCartPrice(56)
       .then((result) => setTotalCartPrice(result.data.data));
   }, []);
+
+
 
   let delete_ = (id) => {
     let cartService = new CartService();
@@ -84,17 +84,24 @@ export default function CartDetail() {
           <Col sm={7}>
             <div style={{backgroundColor:"white", border:"1px solid gray", borderRadius:"10px"}}>
           <ListGroup>
+          <h4 className="p-3 text-purple">SEPET</h4>
         {cartItems.map((cart,index) => (
           <ListGroup.Item action key={index}>
             <div className="d-flex justify-content-end">
               <Buttonn onClick={() => delete_(cart.id)}>x</Buttonn>
             </div>
             <div className="d-flex justify-content-center">
+            {cart.item.imageUrl ? (
               <Image
                 style={{ height: "50px" }}
-                variant="top"
+                src={cart.item.imageUrl}
+              />
+            ) : (
+              <Image
+                style={{ height: "50px" }}
                 src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
               />
+            )}
             </div>
             <div className="d-flex justify-content-center">
               {cart.item.itemName}
@@ -158,27 +165,21 @@ export default function CartDetail() {
           </ListGroup.Item>
         ))}
       </ListGroup>
-      {totalCartPrice.map((dto, index) => (
-        <div key={index} className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
           <span className="m-5">
             Toplam :
             <span style={{ color: "blue" }}>
-              {roll(dto.totalCartPrice, 2)} ₺
+              {roll(totalCartPrice?.totalCartPrice, 2)} ₺
             </span>
           </span>
         </div>
-      ))}
       </div>
           </Col>
 
           <Col sm={5}>
           <Address/>
           </Col>
-          <div className="d-flex justify-content-center">
-        <Button>Alışverişi Tamamla</Button>
-      </div>
         </Row>
-        
       </Container>
     </div>
   );

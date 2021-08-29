@@ -502,3 +502,9 @@ footer{
   background-position: center;
   background-size: cover;
 }
+.text-purple{
+  color: purple;
+}
+.text-bg{
+  color: #006666;
+}
