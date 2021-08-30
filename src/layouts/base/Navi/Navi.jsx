@@ -11,14 +11,14 @@ import {
 } from "react-bootstrap";
 import { TiShoppingCart } from "react-icons/ti";
 import { AiFillLeftCircle } from "react-icons/ai";
-import CartService from "../../services/CartService";
+import CartService from "../../../services/CartService";
 import {
   SearchButton,
   Buttonn,
   AddRemove,
   FlexContainer,
   Flex,
-} from "../../Styles";
+} from "../../../Styles";
 import { Formik, useFormik } from "formik";
 import { Offcanvas } from "react-bootstrap";
 import { NavLink, useHistory } from "react-router-dom";
@@ -136,10 +136,16 @@ export default function Navi() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           ></Nav>
+
+          {/* Marka */}
+
           <Navbar.Brand href="/" className="p-4">
             TANNET SANAL MARKET
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
+
+          {/* Arama */}
+
           <Formik>
             <Form onSubmit={formik.handleSubmit} className="d-flex w-25 ms-5">
               <FormControl
@@ -156,6 +162,8 @@ export default function Navi() {
             </Form>
           </Formik>
 
+            {/* Giriş ve Kayıt Olma */}
+
           <Navbar.Collapse id="navbarScroll" className="justify-content-end">
             {isAuthenticated ? (
               <SignedIn signOut={handlerSignOut} />
@@ -163,6 +171,9 @@ export default function Navi() {
               <SignOut signIn={handlerSignIn} />
             )}
 
+
+              {/* Sipariş Listesi 'SEPET' */}
+              
             <Nav.Item>
               <Button className="m-3" variant="light" onClick={handleShow}>
                 <TiShoppingCart size="30px" color="#666666" />
@@ -186,112 +197,117 @@ export default function Navi() {
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                  <ListGroup>
-                    {cartItems.map((cart) => (
-                      <ListGroup.Item action key={cart.id}>
-                        <div className="d-flex justify-content-end">
-                          <Buttonn onClick={() => delete_(cart.id)}>x</Buttonn>
-                        </div>
-                        <div className="d-flex justify-content-center">
-                          {cart.item.imageUrl ? (
-                            <Image
-                              style={{ height: "50px" }}
-                              src={cart.item.imageUrl}
-                            />
-                          ) : (
-                            <Image
-                              style={{ height: "50px" }}
-                              src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
-                            />
-                          )}
-                        </div>
-                        <div className="d-flex justify-content-center">
-                          {cart.item.itemName}
-                        </div>
-                        <div className="d-flex justify-content-center">
-                          <span style={{ fontSize: "small", width: "100%" }}>
-                            Birim Fiyatı :{" "}
-                            <span>
-                              <b>{roll(cart.item.unitPrice, 2)} ₺</b>
+                  {totalCartPrice ? (
+                    <ListGroup>
+                      {cartItems.map((cart) => (
+                        <ListGroup.Item action key={cart.id}>
+                          <div className="d-flex justify-content-end">
+                            <Buttonn onClick={() => delete_(cart.id)}>
+                              x
+                            </Buttonn>
+                          </div>
+                          <div className="d-flex justify-content-center">
+                            {cart.item.imageUrl ? (
+                              <Image
+                                style={{ height: "50px" }}
+                                src={cart.item.imageUrl}
+                              />
+                            ) : (
+                              <Image
+                                style={{ height: "50px" }}
+                                src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
+                              />
+                            )}
+                          </div>
+                          <div className="d-flex justify-content-center">
+                            {cart.item.itemName}
+                          </div>
+                          <div className="d-flex justify-content-center">
+                            <span style={{ fontSize: "small", width: "100%" }}>
+                              Birim Fiyatı :{" "}
+                              <span>
+                                <b>{roll(cart.item.unitPrice, 2)} ₺</b>
+                              </span>
                             </span>
-                          </span>
-                          <AddRemove>
-                            <FlexContainer>
-                              <Flex className="border">
-                                {cart.item.category1 === 2 ||
-                                cart.item.category1 === 6 ||
-                                cart.item.category1 === 12 ||
-                                cart.item.category1 === 18 ? (
-                                  <Buttonn
-                                    onClick={() => decreaseKg(cart.item.id)}
-                                    disabled={cart.count === 1}
-                                  >
-                                    -
-                                  </Buttonn>
-                                ) : (
-                                  <Buttonn
-                                    onClick={() => decreaseAd(cart.item.id)}
-                                    disabled={cart.count === 1}
-                                  >
-                                    -
-                                  </Buttonn>
-                                )}
-                                {cart.item.category1 === 2 ||
-                                cart.item.category1 === 6 ||
-                                cart.item.category1 === 12 ||
-                                cart.item.category1 === 18 ? (
-                                  <Buttonn>{cart.count} Kilo</Buttonn>
-                                ) : (
-                                  <Buttonn>{cart.count} Adet</Buttonn>
-                                )}
-                                {cart.item.category1 === 2 ||
-                                cart.item.category1 === 6 ||
-                                cart.item.category1 === 12 ||
-                                cart.item.category1 === 18 ? (
-                                  <Buttonn
-                                    onClick={() => increaseKg(cart.item.id)}
-                                  >
-                                    +
-                                  </Buttonn>
-                                ) : (
-                                  <Buttonn
-                                    onClick={() => increaseAd(cart.item.id)}
-                                  >
-                                    +
-                                  </Buttonn>
-                                )}
-                              </Flex>
-                            </FlexContainer>
-                          </AddRemove>
-                          =
-                          <span className="ms-1">
-                            <b>{roll(cart.lineTotal, 2)} ₺ </b>
-                          </span>
-                        </div>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                  <div className="d-flex justify-content-center">
-                    {totalCartPrice ? (<span className="m-5">
-                      Toplam :{" "}
-                      <span style={{ color: "blue" }}>
-                        {" "}
-                        {roll(totalCartPrice?.totalCartPrice, 2)} ₺
+                            <AddRemove>
+                              <FlexContainer>
+                                <Flex className="border">
+                                  {cart.item.category1 === 2 ||
+                                  cart.item.category1 === 6 ||
+                                  cart.item.category1 === 12 ||
+                                  cart.item.category1 === 18 ? (
+                                    <Buttonn
+                                      onClick={() => decreaseKg(cart.item.id)}
+                                      disabled={cart.count === 1}
+                                    >
+                                      -
+                                    </Buttonn>
+                                  ) : (
+                                    <Buttonn
+                                      onClick={() => decreaseAd(cart.item.id)}
+                                      disabled={cart.count === 1}
+                                    >
+                                      -
+                                    </Buttonn>
+                                  )}
+                                  {cart.item.category1 === 2 ||
+                                  cart.item.category1 === 6 ||
+                                  cart.item.category1 === 12 ||
+                                  cart.item.category1 === 18 ? (
+                                    <Buttonn>{cart.count} Kilo</Buttonn>
+                                  ) : (
+                                    <Buttonn>{cart.count} Adet</Buttonn>
+                                  )}
+                                  {cart.item.category1 === 2 ||
+                                  cart.item.category1 === 6 ||
+                                  cart.item.category1 === 12 ||
+                                  cart.item.category1 === 18 ? (
+                                    <Buttonn
+                                      onClick={() => increaseKg(cart.item.id)}
+                                    >
+                                      +
+                                    </Buttonn>
+                                  ) : (
+                                    <Buttonn
+                                      onClick={() => increaseAd(cart.item.id)}
+                                    >
+                                      +
+                                    </Buttonn>
+                                  )}
+                                </Flex>
+                              </FlexContainer>
+                            </AddRemove>
+                            =
+                            <span className="ms-1">
+                              <b>{roll(cart.lineTotal, 2)} ₺ </b>
+                            </span>
+                          </div>
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <h6>Sepetinizde ürün bulunmamaktadır.</h6>
+                    </div>
+                  )}
+                  {totalCartPrice && (
+                    <div className="d-flex justify-content-center">
+                      <span className="m-5">
+                        Toplam :{" "}
+                        <span style={{ color: "blue" }}>
+                          {" "}
+                          {roll(totalCartPrice?.totalCartPrice, 2)} ₺
+                        </span>
                       </span>
-                    </span>):(<span className="m-5">
-                      Toplam :{" "}
-                      <span style={{ color: "blue" }}>
-                        {" "}
-                        0 ₺
-                      </span>
-                    </span>)}
-                    
-                  </div>
-                  <div className="d-flex justify-content-center">
-                    <Button as={NavLink} to="/cart" onClick={handleClose}>
-                      Alışverişi Tamamla
-                    </Button>
-                  </div>
+                    </div>
+                  )}
+                  {totalCartPrice && (
+                    <div className="d-flex justify-content-center">
+                      <Button as={NavLink} to="/cart" onClick={handleClose}>
+                        Alışverişi Tamamla
+                      </Button>
+                    </div>
+                  )}
                 </Offcanvas.Body>
               </Offcanvas>
             </Nav.Item>

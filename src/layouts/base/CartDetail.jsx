@@ -16,12 +16,10 @@ export default function CartDetail() {
       .getByUserIdAndCartStatusIsTrue(56)
       .then((result) => setCartItems(result.data.data));
 
-      cartService
+    cartService
       .getTotalCartPrice(56)
       .then((result) => setTotalCartPrice(result.data.data));
   }, []);
-
-
 
   let delete_ = (id) => {
     let cartService = new CartService();
@@ -82,102 +80,115 @@ export default function CartDetail() {
       <Container className="bg-light p-3">
         <Row>
           <Col sm={7}>
-            <div style={{backgroundColor:"white", border:"1px solid gray", borderRadius:"10px"}}>
-          <ListGroup>
-          <h4 className="p-3 text-purple">SEPET</h4>
-        {cartItems.map((cart,index) => (
-          <ListGroup.Item action key={index}>
-            <div className="d-flex justify-content-end">
-              <Buttonn onClick={() => delete_(cart.id)}>x</Buttonn>
+            <div
+              style={{
+                backgroundColor: "white",
+                border: "1px solid gray",
+                borderRadius: "10px",
+              }}
+            >
+              <ListGroup>
+                <h4 className="p-3 text-purple">SEPET</h4>
+                {cartItems.map((cart, index) => (
+                  <ListGroup.Item action key={index}>
+                    <div className="d-flex justify-content-end">
+                      <Buttonn onClick={() => delete_(cart.id)}>x</Buttonn>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      {cart.item.imageUrl ? (
+                        <Image
+                          style={{ height: "50px" }}
+                          src={cart.item.imageUrl}
+                        />
+                      ) : (
+                        <Image
+                          style={{ height: "50px" }}
+                          src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
+                        />
+                      )}
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      {cart.item.itemName}
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      <span style={{ fontSize: "small", width: "100%" }}>
+                        Birim Fiyatı :{" "}
+                        <span>
+                          <b>{roll(cart.item.unitPrice, 2)} ₺</b>
+                        </span>
+                      </span>
+                      <AddRemove>
+                        <FlexContainer style={{ justifyContent: "center" }}>
+                          <Flex className="border">
+                            {cart.item.category1 === 2 ||
+                            cart.item.category1 === 6 ||
+                            cart.item.category1 === 12 ||
+                            cart.item.category1 === 18 ? (
+                              <Buttonn
+                                onClick={() => decreaseKg(cart.item.id)}
+                                disabled={cart.count === 1}
+                              >
+                                -
+                              </Buttonn>
+                            ) : (
+                              <Buttonn
+                                onClick={() => decreaseAd(cart.item.id)}
+                                disabled={cart.count === 1}
+                              >
+                                -
+                              </Buttonn>
+                            )}
+                            {cart.item.category1 === 2 ||
+                            cart.item.category1 === 6 ||
+                            cart.item.category1 === 12 ||
+                            cart.item.category1 === 18 ? (
+                              <Buttonn>{cart.count} Kilo</Buttonn>
+                            ) : (
+                              <Buttonn>{cart.count} Adet</Buttonn>
+                            )}
+                            {cart.item.category1 === 2 ||
+                            cart.item.category1 === 6 ||
+                            cart.item.category1 === 12 ||
+                            cart.item.category1 === 18 ? (
+                              <Buttonn onClick={() => increaseKg(cart.item.id)}>
+                                +
+                              </Buttonn>
+                            ) : (
+                              <Buttonn onClick={() => increaseAd(cart.item.id)}>
+                                +
+                              </Buttonn>
+                            )}
+                          </Flex>
+                        </FlexContainer>
+                      </AddRemove>
+                      =
+                      <span className="ms-1 w-100">
+                        <b>{roll(cart.lineTotal, 2)} ₺ </b>
+                      </span>
+                    </div>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+              <div className="d-flex justify-content-end">
+                {totalCartPrice ? (
+                  <span className="m-5">
+                    Toplam :{" "}
+                    <span style={{ color: "blue" }}>
+                      {" "}
+                      {roll(totalCartPrice?.totalCartPrice, 2)} ₺
+                    </span>
+                  </span>
+                ) : (
+                  <span className="m-5">
+                    Toplam : <span style={{ color: "blue" }}> 0 ₺</span>
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="d-flex justify-content-center">
-            {cart.item.imageUrl ? (
-              <Image
-                style={{ height: "50px" }}
-                src={cart.item.imageUrl}
-              />
-            ) : (
-              <Image
-                style={{ height: "50px" }}
-                src="https://davutsahin.net/wp-content/uploads/2020/10/gorsel-hazirlaniyor-600x400-1-375x195.png"
-              />
-            )}
-            </div>
-            <div className="d-flex justify-content-center">
-              {cart.item.itemName}
-            </div>
-            <div className="d-flex justify-content-center">
-              <span style={{ fontSize: "small", width: "100%" }}>
-                Birim Fiyatı :{" "}
-                <span>
-                  <b>{roll(cart.item.unitPrice, 2)} ₺</b>
-                </span>
-              </span>
-              <AddRemove >
-                <FlexContainer style={{justifyContent:"center"}}>
-                  <Flex className="border">
-                    {cart.item.category1 === 2 ||
-                    cart.item.category1 === 6 ||
-                    cart.item.category1 === 12 ||
-                    cart.item.category1 === 18 ? (
-                      <Buttonn
-                        onClick={() => decreaseKg(cart.item.id)}
-                        disabled={cart.count === 1}
-                      >
-                        -
-                      </Buttonn>
-                    ) : (
-                      <Buttonn
-                        onClick={() => decreaseAd(cart.item.id)}
-                        disabled={cart.count === 1}
-                      >
-                        -
-                      </Buttonn>
-                    )}
-                    {cart.item.category1 === 2 ||
-                    cart.item.category1 === 6 ||
-                    cart.item.category1 === 12 ||
-                    cart.item.category1 === 18 ? (
-                      <Buttonn>{cart.count} Kilo</Buttonn>
-                    ) : (
-                      <Buttonn>{cart.count} Adet</Buttonn>
-                    )}
-                    {cart.item.category1 === 2 ||
-                    cart.item.category1 === 6 ||
-                    cart.item.category1 === 12 ||
-                    cart.item.category1 === 18 ? (
-                      <Buttonn onClick={() => increaseKg(cart.item.id)}>
-                        +
-                      </Buttonn>
-                    ) : (
-                      <Buttonn onClick={() => increaseAd(cart.item.id)}>
-                        +
-                      </Buttonn>
-                    )}
-                  </Flex>
-                </FlexContainer>
-              </AddRemove>
-              =
-              <span className="ms-1 w-100">
-                <b>{roll(cart.lineTotal, 2)} ₺ </b>
-              </span>
-            </div>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
-        <div className="d-flex justify-content-center">
-          <span className="m-5">
-            Toplam :
-            <span style={{ color: "blue" }}>
-              {roll(totalCartPrice?.totalCartPrice, 2)} ₺
-            </span>
-          </span>
-        </div>
-      </div>
           </Col>
 
           <Col sm={5}>
-          <Address/>
+            <Address />
           </Col>
         </Row>
       </Container>

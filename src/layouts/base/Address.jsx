@@ -96,7 +96,12 @@ export default function Address() {
           appearance: result.data.success ? "success" : "error",
           autoDismiss: true,
         })
+        (result.data.success &&  
+          window.location.assign("/")
+        )
       );
+
+      
     },
   });
 
@@ -145,8 +150,9 @@ export default function Address() {
           </FloatingLabel>
         </Form>
       </Formik>
+
       <Formik>
-        <Form onSubmit={formik2.handleSubmit}>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Label className="m-4">
             <h4 className="text-bg">Yeni Adres ekle</h4>
           </Form.Label>
@@ -237,6 +243,7 @@ export default function Address() {
           </Button>
         </Form>
       </Formik>
+
       <div>
         <h4 className="p-3 text-purple">SİPARİŞ ÖZETİ</h4>
         <Form.Label>Sipariş Adresi</Form.Label>
@@ -252,18 +259,23 @@ export default function Address() {
           yapabilirsiniz.
         </Form.Text>
         <div className="d-flex justify-content-center">
-          <span className="m-5">
-            Toplam :
-            <span style={{ color: "blue" }}>
-              {roll(totalCartPrice?.totalCartPrice, 2)} ₺
+          {totalCartPrice && (
+            <span className="m-5">
+              <Form.Label>Ödenecek Tutar</Form.Label> <br />
+              <span style={{ color: "blue" }}>
+                {" "}
+                {roll(totalCartPrice?.totalCartPrice, 2)} ₺
+              </span>
             </span>
-          </span>
+          )}
         </div>
       </div>
       <div className="d-flex justify-content-end p-4">
         <Formik>
           <Form onSubmit={formik3.handleSubmit}>
-            <Button type="submit">Alışverişi Tamamla</Button>
+            <Button type="submit" variant="success">
+              Siparişi Onayla ve Ana Sayfaya Dön
+            </Button>
           </Form>
         </Formik>
       </div>

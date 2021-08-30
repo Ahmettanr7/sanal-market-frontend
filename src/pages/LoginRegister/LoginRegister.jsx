@@ -1,5 +1,5 @@
 import React from "react";
-import { Login, Register } from "./index";
+import { Login, Register } from "../../layouts/base/login/index";
 import "./LoginRegister.css";
 
 export default class LoginRegister extends React.Component {

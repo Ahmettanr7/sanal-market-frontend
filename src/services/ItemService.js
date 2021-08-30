@@ -5,12 +5,16 @@ export default class ItemService{
         return axios.post("http://localhost:8080/api/items/add",item)
     }
 
-    delete(itemId){
-        return axios.post("http://localhost:8080/api/items/delete?itemId="+itemId)
+    delete(id){
+        return axios.post("http://localhost:8080/api/items/delete?id="+id)
     }
 
     getById(id){
         return axios.get("http://localhost:8080/api/items/getbyid?id="+id)
+    }
+
+    imageUpload(itemId,multipartFile){
+        return axios.post(`http://localhost:8080/cloudinary/upload?itemId=${itemId}`,multipartFile)
     }
 
     getByCategory(cat1Id,pageNo,pageSize){

@@ -4,8 +4,10 @@ import CategoryService from "../../services/CategoryService";
 import { Container } from "../../Styles";
 import { ReactComponent as AddIcon } from "../../assets/eye.svg";
 import { Button } from "react-bootstrap";
+import { useToasts } from "react-toast-notifications";
 
 export default function CategoryList() {
+  const { addToast } = useToasts();
   const icon = [<AddIcon />];
 
   const [categories, setCategories] = useState([]);

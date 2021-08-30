@@ -1,50 +1,39 @@
 import React from "react";
-import Navi from "./Navi";
-import { Row, Col, Container } from "react-bootstrap";
-import ItemList from "./ItemList";
+import Navi from "./Navi/Navi";
 import { Route } from "react-router-dom";
-import CategoryList from "./CategoryList";
-import CarouselLayout from "./CarouselLayout";
-import ItemSearchList from "./ItemSearchList";
-import LoginRegister from "./login/LoginRegister";
 import Background from "./Background";
 import Footer from "./Footer";
 import CartDetail from "./CartDetail";
+import AdminPage from "../../pages/admin/AdminPage";
+import FirstPage from "../../pages/base/FirstPage";
+import ItemListPage from "../../pages/base/ItemListPage";
+import LoginRegister from "../../pages/LoginRegister/LoginRegister";
 
 export default function Dashboard() {
   return (
     <div>
-      <Navi />
-      <Route exact path="/login" component={LoginRegister} />
-      <Route exact path="/cart" component={CartDetail} />
-      <Row>
-        <Col sm={1}></Col>
-        <Col sm={2}>
-          <Route exact path="/" component={CategoryList} />
-        </Col>
-        <Col sm={8}>
-          <Container>
-            <Route exact path="/" component={CarouselLayout} />
-          </Container>
-        </Col>
-        <Col sm={1}></Col>
-      </Row>
+      <Route exact path="/" component={Navi} />
+      <Route exact path="/search/:itemName" component={Navi} />
+      <Route exact path="/items/:id" component={Navi} />
+      <Route exact path="/cart" component={Navi} />
+      <Route exact path="/login" component={Navi} />
 
-      <Row>
-        <Col sm={1}></Col>
-        <Col sm={2}>
-          <Route exact path="/items/:id" component={CategoryList} />
-          <Route exact path="/search/:itemName" component={CategoryList} />
-        </Col>
-        <Col sm={8}>
-          <Route exact path="/items/:id" component={ItemList} />
-          <Route exact path="/search/:itemName" component={ItemSearchList} />
-        </Col>
-        <Col sm={1}>
-          <Route exact path="/items/:id" />
-          <Route exact path="/search/:itemName" />
-        </Col>
-      </Row>
+      <Route exact path="/" component={FirstPage} />
+
+      <Route exact path="/login" component={LoginRegister} />
+
+      <Route exact path="/cart" component={CartDetail} />
+
+      <Route exact path="/admin" component={AdminPage} />
+      <Route exact path="/admin/itemAdd" component={AdminPage} />
+      <Route exact path="/admin/itemManagement" component={AdminPage} />
+      <Route exact path="/admin/categoryAdd" component={AdminPage} />
+      <Route exact path="/admin/categoryManagement" component={AdminPage} />
+      <Route exact path="/admin/itemManagement/:itemName" component={AdminPage} />
+
+      <Route exact path="/items/:id" component={ItemListPage} />
+      <Route exact path="/search/:itemName" component={ItemListPage} />
+
       <Background/>
       <Footer/>
     </div>
