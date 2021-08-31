@@ -11,14 +11,14 @@ import {
 } from "react-bootstrap";
 import { TiShoppingCart } from "react-icons/ti";
 import { AiFillLeftCircle } from "react-icons/ai";
-import CartService from "../../../services/CartService";
+import CartService from "../../services/CartService";
 import {
   SearchButton,
   Buttonn,
   AddRemove,
   FlexContainer,
   Flex,
-} from "../../../Styles";
+} from "../../Styles";
 import { Formik, useFormik } from "formik";
 import { Offcanvas } from "react-bootstrap";
 import { NavLink, useHistory } from "react-router-dom";
@@ -36,10 +36,8 @@ export default function Navi() {
     cartService
       .getByUserIdAndCartStatusIsTrue(56)
       .then((result) => setCartItems(result.data.data));
-  }, []);
-  useEffect(() => {
-    let cartService = new CartService();
-    cartService
+
+      cartService
       .getTotalCartPrice(56)
       .then((result) => setTotalCartPrice(result.data.data));
   }, []);

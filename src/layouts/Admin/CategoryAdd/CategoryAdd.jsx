@@ -1,7 +1,7 @@
 import { Formik, useFormik } from "formik";
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import CategoryService from "../../../../services/CategoryService";
+import CategoryService from "../../../services/CategoryService";
 import { useToasts } from "react-toast-notifications";
 
 export default function CategoryAdd() {

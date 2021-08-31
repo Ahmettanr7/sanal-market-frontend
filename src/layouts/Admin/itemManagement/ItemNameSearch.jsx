@@ -1,7 +1,7 @@
 import { Formik, useFormik } from 'formik';
 import React from 'react'
 import { Form, FormControl } from 'react-bootstrap';
-import { SearchButton } from '../../../../Styles';
+import { SearchButton } from '../../../Styles';
 
 export default function ItemNameSearch() {
 

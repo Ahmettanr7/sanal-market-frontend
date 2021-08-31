@@ -25,11 +25,8 @@ export default function ItemSearchList() {
     itemService
       .getByItemNamePageable(itemName,pageNo,pageSize)
       .then((result) => setItems(result.data.data));
-  }, []);
 
-  useEffect(() => {
-    let itemService = new ItemService();
-    itemService
+      itemService
       .getByItemName(itemName)
       .then((result) => setTotalItem(result.data.data));
   }, []);

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Pagination, Form } from "react-bootstrap";
 import { useParams } from "react-router";
-import { Container } from "../../../../Styles";
-import ItemService from "../../../../services/ItemService";
+import { Container } from "../../../Styles";
+import ItemService from "../../../services/ItemService";
 import { RiImageAddFill } from "react-icons/ri";
 import { useToasts } from "react-toast-notifications";
 import { GrDocumentUpdate } from "react-icons/gr";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./AdminNavi.css"
 
 const AdminNavi = ({ li }) => {
@@ -15,7 +15,7 @@ const AdminNavi = ({ li }) => {
   };
 
   return (
-    <nav className="navbar-menu" style={{ width: window === false ? 250 : 100 }}>
+    <nav className="navbar-menu" style={{ width: window === false ? 300 : 150 }}>
       <div className="burger" onClick={() => openClose()}>
         <Image src="https://res.cloudinary.com/ahmettanrikulu/image/upload/v1630324845/eCommerce/menu_zslqzy.svg" alt="burger" />
       </div>

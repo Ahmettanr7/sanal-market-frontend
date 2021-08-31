@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button, ListGroup, Image, Container, Col, Row } from "react-bootstrap";
+import { Button, ListGroup, Image } from "react-bootstrap";
 import CartService from "../../services/CartService";
 import { Buttonn, AddRemove, FlexContainer, Flex } from "../../Styles";
 import { useToasts } from "react-toast-notifications";
-import Address from "./Address";
 
 export default function CartDetail() {
   const { addToast } = useToasts();
@@ -77,9 +76,6 @@ export default function CartDetail() {
   }
   return (
     <div>
-      <Container className="bg-light p-3">
-        <Row>
-          <Col sm={7}>
             <div
               style={{
                 backgroundColor: "white",
@@ -185,13 +181,6 @@ export default function CartDetail() {
                 )}
               </div>
             </div>
-          </Col>
-
-          <Col sm={5}>
-            <Address />
-          </Col>
-        </Row>
-      </Container>
     </div>
   );
 }

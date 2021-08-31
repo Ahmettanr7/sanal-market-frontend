@@ -24,22 +24,20 @@ export default function ItemList() {
 
   useEffect(() => {
     let itemService = new ItemService();
+    let categoryService = new CategoryService();
     itemService
       .getByCategory(id, pageNo, pageSize)
       .then((result) => setItems(result.data.data));
-  }, []);
 
-  useEffect(() => {
-    let itemService = new ItemService();
-    itemService
+      itemService
       .getAllCategory1Id(id)
       .then((result) => setTotalItem(result.data.data));
+
+      categoryService.getById(id).then((result) => setCat(result.data.data));
+
   }, []);
 
-  useEffect(() => {
-    let categoryService = new CategoryService();
-    categoryService.getById(id).then((result) => setCat(result.data.data));
-  }, []);
+  
 
   const [pageNo, setActivePage] = useState(1);
 

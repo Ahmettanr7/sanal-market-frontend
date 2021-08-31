@@ -1,12 +1,14 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { NavLink, Route } from "react-router-dom";
-import AdminNavi from "../../layouts/base/Admin/adminNavi/AdminNavi";
-import CategoryAdd from "../../layouts/base/Admin/CategoryAdd/CategoryAdd";
-import CategoryManagement from "../../layouts/base/Admin/CategoryManagement/CategoryManagement";
-import ItemAdd from "../../layouts/base/Admin/itemAdd/ItemAdd";
-import AdminItemSearchList from "../../layouts/base/Admin/itemManagement/AdminItemSearchList";
-import ItemNameSearch from "../../layouts/base/Admin/itemManagement/ItemNameSearch";
+import { Route } from "react-router-dom";
+import AdminNavi from "../../layouts/Admin/adminNavi/AdminNavi";
+import CategoryAdd from "../../layouts/Admin/CategoryAdd/CategoryAdd";
+import CategoryManagement from "../../layouts/Admin/CategoryManagement/CategoryManagement";
+import DeliveredIsFalse from "../../layouts/Admin/Delivered/DeliveredIsFalse/DeliveredIsFalse";
+import DeliveredIsTrue from "../../layouts/Admin/Delivered/DeliveredIsTrue/DeliveredIsTrue";
+import ItemAdd from "../../layouts/Admin/itemAdd/ItemAdd";
+import AdminItemSearchList from "../../layouts/Admin/itemManagement/AdminItemSearchList";
+import ItemNameSearch from "../../layouts/Admin/itemManagement/ItemNameSearch";
 
 export default function AdminPage() {
   return (
@@ -36,6 +38,16 @@ export default function AdminPage() {
                 "https://res.cloudinary.com/ahmettanrikulu/image/upload/v1630346770/eCommerce/edit_begty1.png",
                 "/admin/categoryManagement",
               ],
+              [
+                "Bekleyen Siparişler",
+                "https://res.cloudinary.com/ahmettanrikulu/image/upload/v1630361753/eCommerce/wait_kdtpvv.png",
+                "/admin/deliveredFalse",
+              ],
+              [
+                "Teslim Edilen Siparişler",
+                "https://res.cloudinary.com/ahmettanrikulu/image/upload/v1630361852/eCommerce/delivered_dntcun.png",
+                "/admin/deliveredTrue",
+              ],
             ]}
           />
         </Col>
@@ -46,6 +58,8 @@ export default function AdminPage() {
         <Route exact path="/admin/itemManagement/:itemName" component={AdminItemSearchList} />
         <Route exact path="/admin/categoryAdd" component={CategoryAdd} />
         <Route exact path="/admin/categoryManagement" component={CategoryManagement} />
+        <Route exact path="/admin/deliveredFalse" component={DeliveredIsFalse} />
+        <Route exact path="/admin/deliveredTrue" component={DeliveredIsTrue} />
         </Col>
       </Row>
     </div>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FloatingLabel, Form, Button, Col, Row } from "react-bootstrap";
 import { Formik, useFormik } from "formik";
-import * as Yup from "yup";
 import { useToasts } from "react-toast-notifications";
-import ItemService from "../../../../services/ItemService";
-import CategoryService from "../../../../services/CategoryService";
+import ItemService from "../../../services/ItemService";
+import CategoryService from "../../../services/CategoryService";
 
 export default function ItemAdd(){
   const { addToast } = useToasts();
