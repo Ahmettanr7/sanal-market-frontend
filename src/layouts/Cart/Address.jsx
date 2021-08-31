@@ -42,7 +42,7 @@ export default function Address() {
     cartService
       .getTotalCartPrice(56)
       .then((result) => setTotalCartPrice(result.data.data));
-  }, []);
+  }, [totalCartPrice]);
 
   const NewAddressAddSchema = Yup.object().shape({
     countryId: Yup.string().required("Ülke seçimi zorunludur"),

@@ -5,6 +5,7 @@ import AdminNavi from "../../layouts/Admin/adminNavi/AdminNavi";
 import CategoryAdd from "../../layouts/Admin/CategoryAdd/CategoryAdd";
 import CategoryManagement from "../../layouts/Admin/CategoryManagement/CategoryManagement";
 import DeliveredIsFalse from "../../layouts/Admin/Delivered/DeliveredIsFalse/DeliveredIsFalse";
+import OrderDetails from "../../layouts/Admin/Delivered/DeliveredIsFalse/OrderDetails";
 import DeliveredIsTrue from "../../layouts/Admin/Delivered/DeliveredIsTrue/DeliveredIsTrue";
 import ItemAdd from "../../layouts/Admin/itemAdd/ItemAdd";
 import AdminItemSearchList from "../../layouts/Admin/itemManagement/AdminItemSearchList";
@@ -60,6 +61,7 @@ export default function AdminPage() {
         <Route exact path="/admin/categoryManagement" component={CategoryManagement} />
         <Route exact path="/admin/deliveredFalse" component={DeliveredIsFalse} />
         <Route exact path="/admin/deliveredTrue" component={DeliveredIsTrue} />
+        <Route exact path="/admin/deliveredFalse/:id" component={OrderDetails} />
         </Col>
       </Row>
     </div>

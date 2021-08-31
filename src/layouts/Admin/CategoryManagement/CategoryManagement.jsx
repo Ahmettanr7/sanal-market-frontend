@@ -12,7 +12,7 @@ export default function CategoryManagement() {
 
   useEffect(() => {
     categoryService.getAll().then((result) => setCategories(result.data.data));
-  }, []);
+  }, [categories]);
 
   let delete_ = (id) => {
     categoryService.delete(id).then((result) => {

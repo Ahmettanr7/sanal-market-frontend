@@ -19,13 +19,13 @@ export default function ItemSearchList() {
 
   const [items, setItems] = useState([]);
   const [totalItem,setTotalItem] = useState([])
-
+  let itemService = new ItemService();
   useEffect(() => {
-    let itemService = new ItemService();
     itemService
       .getByItemNamePageable(itemName,pageNo,pageSize)
       .then((result) => setItems(result.data.data));
-
+  }, [items]);
+  useEffect(() => {
       itemService
       .getByItemName(itemName)
       .then((result) => setTotalItem(result.data.data));

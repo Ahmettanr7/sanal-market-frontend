@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Table, Button } from 'react-bootstrap'
 import OrderService from '../../../../services/OrderService';
 import { useToasts } from "react-toast-notifications";
+import { NavLink } from 'react-router-dom';
 
 export default function DeliveredIsFalse() {
 
@@ -13,7 +14,7 @@ export default function DeliveredIsFalse() {
 
     useEffect(() => {
       orderService.getByIsDeliveredIsFalse().then((result) => setOrders(result.data.data));
-    }, []);
+    }, [orders]);
 
     let wasDelivered = (id) => {
         orderService.wasDelivered(id).then((result) => {
@@ -42,6 +43,7 @@ export default function DeliveredIsFalse() {
       <th>Sipariş Tutarı</th>
       <th>Sipariş Adresi</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -53,10 +55,11 @@ export default function DeliveredIsFalse() {
       <td>{order.date}</td>
       <td>{order.totalPrice} ₺ </td>
       <td>{order.address.addressText}</td>
-      <td>
+      <td style={{width:"150px"}}><Button  as={NavLink} to={`/admin/deliveredFalse/${order.id}`} variant="warning">Siparişleri Gör</Button></td>
+      <td style={{width:"200px"}}>
         <Button
         onClick={() => wasDelivered(order.id)}
-        variant="success">Gönderildi</Button>
+        variant="success">Gönderildi Olarak İşaretle</Button>
       </td>
     </tr>
     ))}

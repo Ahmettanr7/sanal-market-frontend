@@ -16,18 +16,17 @@ export default function AdminItemSearchList() {
   const [items, setItems] = useState([]);
   const [totalItem, setTotalItem] = useState([]);
 
-  const [itemNo, setItemNo] = useState(0);
-
   let itemService = new ItemService();
   useEffect(() => {
-    itemService
-      .getByItemNamePageable(itemName, pageNo, pageSize)
-      .then((result) => setItems(result.data.data));
-
     itemService
       .getByItemName(itemName)
       .then((result) => setTotalItem(result.data.data));
   }, []);
+  useEffect(() => {
+    itemService
+      .getByItemNamePageable(itemName, pageNo, pageSize)
+      .then((result) => setItems(result.data.data));
+  }, [items]);
 
   const formik2 = useFormik({
     initialValues: {

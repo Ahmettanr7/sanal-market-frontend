@@ -35,7 +35,7 @@ export default function ItemList() {
 
       categoryService.getById(id).then((result) => setCat(result.data.data));
 
-  }, []);
+  }, [items]);
 
   
 

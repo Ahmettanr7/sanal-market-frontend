@@ -18,7 +18,7 @@ export default function CartDetail() {
     cartService
       .getTotalCartPrice(56)
       .then((result) => setTotalCartPrice(result.data.data));
-  }, []);
+  }, [totalCartPrice]);
 
   let delete_ = (id) => {
     let cartService = new CartService();

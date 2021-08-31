@@ -17,9 +17,11 @@ export default function ItemNameSearch() {
 
     return (
         <div>
-          <div className="d-flex justify-content-center">
+          <div 
+          className="d-flex justify-content-center mt-3"
+          >
             <Formik>
-            <Form onSubmit={formik.handleSubmit} className="d-flex w-25 ms-5">
+            <Form onSubmit={formik.handleSubmit} className="d-flex w-100 ms-5">
               <FormControl
                 type="search"
                 name="itemName"

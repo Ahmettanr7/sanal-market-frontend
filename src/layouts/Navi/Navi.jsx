@@ -33,14 +33,17 @@ export default function Navi() {
 
   useEffect(() => {
     let cartService = new CartService();
-    cartService
-      .getByUserIdAndCartStatusIsTrue(56)
-      .then((result) => setCartItems(result.data.data));
-
       cartService
       .getTotalCartPrice(56)
       .then((result) => setTotalCartPrice(result.data.data));
-  }, []);
+  }, [totalCartPrice]);
+  
+  useEffect(() => {
+    let cartService = new CartService();
+    cartService
+      .getByUserIdAndCartStatusIsTrue(56)
+      .then((result) => setCartItems(result.data.data));
+  }, [cartItems]);
 
   const formik = useFormik({
     initialValues: {
